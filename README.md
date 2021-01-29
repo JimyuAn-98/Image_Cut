@@ -1,6 +1,6 @@
 # Image_Cut
 
-Crop high-resolution images into low-resolution images and preserve the BBOX information
+Readme in [English](https://github.com/JimyuAn-98/Image_Cut/blob/master/README_EN.md)
 
 将高分辨率图片切割为低分辨率图片，并且保留对应的bbox信息
 
