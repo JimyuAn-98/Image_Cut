@@ -12,34 +12,35 @@ flags.DEFINE_string('oap', './data/dataset/tiny_cut_train.txt', 'path to save pr
 
 
 def load_file():
-    anno_path = FLAGS.fap
-    with open(anno_path, "r") as f:
-        txt = f.readlines()
+    anno_path = FLAGS.fap   # get the path of the former annotation txt file
+    with open(anno_path, "r") as f:     # open file
+        txt = f.readlines()     # read by line
         annotations = [line.strip() for line in txt]
         return annotations
 
 def cut_images():
-    output_anno_path = FLAGS.oap
-    output_img_path = FLAGS.oip
-    input_size = int(FLAGS.size)
-    anno = load_file()
+    output_anno_path = FLAGS.oap    # get the path to save annotation file
+    output_img_path = FLAGS.oip     # get the path to save images
+    input_size = int(FLAGS.size)    # get the input size
+    anno = load_file()      # get the former annotation file
 
-    if not os.path.exists(output_img_path):
+    if not os.path.exists(output_img_path):     # if the path of saving images is not exist, than create one
         os.mkdir(output_img_path)
 
-    if os.path.exists(output_anno_path):
+    if os.path.exists(output_anno_path):    # if there is a annotation file which has the same name, than erase it
         os.remove(output_anno_path)
 
-    with open(output_anno_path, 'a') as txt:
+    with open(output_anno_path, 'a') as txt:    # create and open the output annotation file
         count = 1
-        for line in anno:
-            lines = line.split(":")
+        for line in anno:   # read in line
+            lines = line.split(":")     # split the sources by ":", you can change it into yours acquirement
             img_path = lines[0]
+            # By getting the name of the original picture to make it easier for naming the processed picture
             img_name = img_path.split("/")[-1].split(".")[0]
             bboxes = np.array(
-                [list(map(int, box.split(","))) for box in lines[1:]]
+                [list(map(int, box.split(","))) for box in lines[1:]]   # get the bboxes coordinate
             )
-            img = cv.imread(img_path)
+            img = cv.imread(img_path)   # read the image
             img_height = img.shape[0]
             img_width = img.shape[1]
             blocks_x = math.ceil(img_width / input_size)  # number of blocks in x axis
@@ -61,7 +62,7 @@ def cut_images():
                     new_img_path = '/'.join([output_img_path, new_img_name])
                     x_cen = (x_min + x_max) / 2
                     y_cen = (y_min + y_max) / 2
-                    annotation = gen_anno(new_img_path, input_size, x_cen, y_cen, bboxes, i)
+                    annotation = gen_anno(new_img_path, input_size, x_cen, y_cen, bboxes, i)    # get the annotation
                     if annotation is None:
                         pass
                     else:
