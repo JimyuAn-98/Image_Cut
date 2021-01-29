@@ -120,10 +120,10 @@ def gen_anno(img_path, input_size, x_cen, y_cen, bboxes, i):
                     else:
                         new_by_cen = H / 2
 
-                bx_min = new_bx_cen - L / 2
-                bx_max = new_bx_cen + L / 2
-                by_min = new_by_cen - H / 2
-                by_max = new_by_cen + H / 2
+                bx_min = int(new_bx_cen - L / 2)
+                bx_max = int(new_bx_cen + L / 2)
+                by_min = int(new_by_cen - H / 2)
+                by_max = int(new_by_cen + H / 2)
                 annotation += ':' + ','.join([str(bx_min), str(by_min), str(bx_max), str(by_max), str(category)])
     if annotation == img_path:
         return None
